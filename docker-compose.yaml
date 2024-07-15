@@ -61,7 +61,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mariadb://didacto-database-dev:3306/didacto-database?characterEncoding=UTF-8&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1111
-      SPRING_RABBITMQ_HOST: didacto-rabbitmq  # didacto-rabbitmq 서비스의 이름으로 설정
+      SPRING_RABBITMQ_HOST: didacto-rabbitmq-dev  # didacto-rabbitmq 서비스의 이름으로 설정
       SPRING_RABBITMQ_PORT: 5672  # didacto-rabbitmq 서비스의 RabbitMQ 포트 번호
 #    volumes:
 #      - ./volumes/storage/upload:/app/didacto/storage/upload
