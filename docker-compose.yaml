@@ -39,11 +39,21 @@ services:
     networks:
       - didacto-network-inner
 
+  didacto-rabbitmq:
+    image: rabbitmq:management
+    container_name: didacto-rabbitmq-dev
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - didacto-network-inner
+
   didacto-app:
     image: sjh9708/didacto-app-dev:latest
     restart: always
     depends_on: #database service가 실행된 이후에 실행
       - didacto-database
+      - didacto-rabbitmq
     expose:
       - 8080
     container_name: didacto-app-dev
@@ -51,6 +61,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mariadb://didacto-database-dev:3306/didacto-database?characterEncoding=UTF-8&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1111
+      SPRING_RABBITMQ_HOST: didacto-rabbitmq  # didacto-rabbitmq 서비스의 이름으로 설정
+      SPRING_RABBITMQ_PORT: 5672  # didacto-rabbitmq 서비스의 RabbitMQ 포트 번호
 #    volumes:
 #      - ./volumes/storage/upload:/app/didacto/storage/upload
     networks:
@@ -68,4 +80,7 @@ services:
     networks:
       - didacto-network-inner
       - didacto-network-outer
+
+
+
 
