@@ -53,8 +53,8 @@ services:
     image: redis:6.2.6-alpine
     container_name: didacto-redis
     ports:
-      - 6393:6379
-    command: redis-server /usr/local/etc/redis/redis.conf
+      - 6393:6380
+    command: redis-server /usr/local/etc/redis/redis.conf --port 6380
     container_name: didacto-redis
     volumes: # 마운트할 볼륨 설정
       - ./volumes/redis/data:/data
@@ -79,6 +79,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: 1111
       SPRING_RABBITMQ_HOST: didacto-rabbitmq-dev  # didacto-rabbitmq 서비스의 이름으로 설정
       SPRING_RABBITMQ_PORT: 5672  # didacto-rabbitmq 서비스의 RabbitMQ 포트 번호
+      REDIS_HOST: didacto-redis
+      REDIS_PORT: 6380
 #    volumes:
 #      - ./volumes/storage/upload:/app/didacto/storage/upload
     networks:
