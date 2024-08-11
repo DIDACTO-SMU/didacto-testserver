@@ -22,6 +22,7 @@ services:
       - didacto-database
       - didacto-app
       - didacto-phpmyadmin
+      - didacto-redis
     networks:
       - didacto-network-inner
       - didacto-network-outer
@@ -48,12 +49,27 @@ services:
     networks:
       - didacto-network-inner
 
+  didacto-redis:
+    image: redis:6.2.6-alpine
+    container_name: didacto-redis
+    ports:
+      - 6393:6379
+    command: redis-server /usr/local/etc/redis/redis.conf
+    container_name: didacto-redis
+    volumes: # 마운트할 볼륨 설정
+      - ./volumes/redis/data:/data
+      - ./volumes/redis/conf:/usr/local/etc/redis/redis.conf
+    restart: always
+    networks:
+      - didacto-network-inner
+
   didacto-app:
     image: sjh9708/didacto-app-dev:latest
     restart: always
     depends_on: #database service가 실행된 이후에 실행
       - didacto-database
       - didacto-rabbitmq
+      - didacto-redis
     expose:
       - 8080
     container_name: didacto-app-dev
